@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: flaskweb-pod
+  labels:
+    creation_method: manual
+    env: prod
+spec:
+  containers:
+    - image: douglasdb/flaskweb-app
+      name: flaskweb-app
+      ports:
+      - containerPort: 5000
+        protocol: TCP

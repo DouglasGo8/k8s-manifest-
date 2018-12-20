@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+ name: readwrite-pod
+ labels:
+  creation_method: manual
+  env: poc
+spec:
+ containers:
+ - image: douglasdb/app-svc-writer
+   name: app-svc-writer
+   env:
+   - name: PATH_TO_WRITE
+     value: /tmp/quotes
+   volumeMounts:
+   - name: data-json
+     mountPath: /tmp/quotes
+   ports:
+   - containerPort: 10250
+     protocol: TCP
+ - image: douglasdb/app-svc-reader
+   name: app-svc-reader
+   env:
+   - name: PATH_TO_READ
+     value: /tmp/quotes
+   volumeMounts:
+   - name: data-json
+     mountPath: /tmp/quotes
+     readOnly: true
+   ports:
+   - containerPort: 10251
+     protocol: TCP
+ volumes:
+ - name: data-json
+   emptyDir: {}

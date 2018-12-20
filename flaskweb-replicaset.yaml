@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: ReplicaSet
+metadata:
+ name: flaskweb-app-microservice
+ labels:
+  app: flaskweb-app
+  tier: backend
+spec:
+ replicas: 3
+ selector:
+  matchLabels:
+    tier: backend
+  matchExpressions:
+    - {key: tier, operator: In, values: [backend]}
+ template:
+  metadata:
+   labels:
+    app: flaskweb-app
+    tier: backend
+  spec:
+   containers:
+   - name: flaskweb-app
+     image: douglasdb/flaskweb-app
+     ports:
+     - containerPort: 5000
