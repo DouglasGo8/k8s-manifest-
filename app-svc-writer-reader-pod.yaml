@@ -11,10 +11,13 @@ spec:
    name: app-svc-writer
    env:
    - name: PATH_TO_WRITE
-     value: /tmp/quotes
+     valueFrom:
+      configMapKeyRef:
+        name: axios-config
+        key: axios-path-rwx
    volumeMounts:
    - name: data-json
-     mountPath: /tmp/quotes
+     mountPath: /tmp/
    ports:
    - containerPort: 10250
      protocol: TCP
@@ -22,10 +25,13 @@ spec:
    name: app-svc-reader
    env:
    - name: PATH_TO_READ
-     value: /tmp/quotes
+     valueFrom:
+      configMapKeyRef:
+        name: axios-config
+        key: axios-path-rwx
    volumeMounts:
    - name: data-json
-     mountPath: /tmp/quotes
+     mountPath: /tmp/
      readOnly: true
    ports:
    - containerPort: 10251
