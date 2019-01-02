@@ -12,34 +12,6 @@ spec:
     app: quotes-mongosed
     tier: backend
 ---
-apiVersion: v1
-kind: Route
-metadata:
-  annotations:
-    openshift.io/host.generated: 'true'
-  creationTimestamp: '2019-01-01T21:07:13Z'
-  name: quotes-mongosed-service
-  namespace: myproject
-  resourceVersion: '5228'
-  selfLink: /oapi/v1/namespaces/myproject/routes/quotes-mongosed-service
-  uid: 363e3a63-0e09-11e9-988d-00155d139409
-spec:
-  host: quotes-mongosed-service-myproject.10.0.75.2.nip.io
-  to:
-    kind: Service
-    name: quotes-mongosed-service
-    weight: 100
-  wildcardPolicy: None
-status:
-  ingress:
-    - conditions:
-        - lastTransitionTime: '2019-01-01T21:07:13Z'
-          status: 'True'
-          type: Admitted
-      host: quotes-mongosed-service-myproject.10.0.75.2.nip.io
-      routerName: router
-      wildcardPolicy: None
----
 apiVersion: extensions/v1beta1
 kind: ReplicaSet
 metadata:
@@ -64,7 +36,7 @@ spec:
    - name: quotes-mongosed
      env:
      - name: SERVER_HOST
-       value: 172.17.0.2
+       value: 172.17.0.3
      image: douglasdb/quotes-mongosed
      ports:
      - containerPort: 10254
