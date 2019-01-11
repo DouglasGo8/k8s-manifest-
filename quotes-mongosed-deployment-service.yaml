@@ -61,6 +61,10 @@ spec:
   spec:
    containers:
    - name: quotes-mongosed
+     resources:
+       requests:
+        cpu: 200m
+        memory: 10Mi
      env:
      - name: SERVER_HOST
        value: 172.17.0.3
