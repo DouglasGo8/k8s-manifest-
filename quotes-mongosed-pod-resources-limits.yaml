@@ -1,42 +1,7 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: quotes-mongosed-svc
-  annotations:
-    haproxy.router.openshift.io/balance: roundrobin
-spec:
-  ports:
-  - port: 10254
-    targetPort: 10254
-  selector:
-    app: quotes-mongosed
-    tier: backend
----
-apiVersion: route.openshift.io/v1
-kind: Route
-metadata:
-  annotations:
-    openshift.io/host.generated: 'true'
-  name: quotes-mongosed-svc
-  namespace: myproject
-spec:
-  host: quotes-mongosed-svc-myproject.10.0.75.2.nip.io
-  to:
-    kind: Service
-    name: quotes-mongosed-svc
-    weight: 100
-  wildcardPolicy: None
-status:
-  ingress:
-    - conditions:
-      host: quotes-mongosed-svc-myproject.10.0.75.2.nip.io
-      routerName: router
-      wildcardPolicy: None
----
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
- name: quotes-mongosed-dp
+ name: quotes-mongosed-deployment
  labels:
   app: quotes-mongosed
   tier: backend
@@ -61,7 +26,7 @@ spec:
   spec:
    containers:
    - name: quotes-mongosed
-     resources:
+     resources: # Burstable QoS classification
        limits:
          cpu: 1
          memory: 50Mi #MebiBit Mi -> 3.xxx MegaBytes
